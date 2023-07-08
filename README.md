@@ -48,3 +48,66 @@ Added some definitions.
 replace position: pkg/sql/distsql_plan_join.go
 ```
 Added some definitions.
+# Datasets
+We use the Python numpy package to generate datasets that follow the Zipf distribution. The code for generating the dataset is in the zipf folder and can be used in the following way.
+```
+cd zipf
+python main.py + argvs
+```
+Parameters are as follows.
+```
+Parameters
+{
+    argv[1] : num_row_1
+    argv[2] : a_1
+    argv[3] : num_row_2 
+    args[4] : a_2
+    args[5] : upper_bound
+    args[6] : offset(optional, by default 0)
+}
+Data scope: [0, upper_bound]
+```
+The five parameters are the number of rows to generate the small table, the zipf factor of the small table (a decimal number between 1.01 and 2), the number of rows of the large table, the zipf factor of the large table, and the upper bound of the data (the large table and the small table have a data range of [0,upper_bound] on the join column).
+# Workload
+The workload of the experiment is a query in the following form. R table and S table perform an equi-join on a column.
+```
+SELECT COUNT ( ∗ ) FROM R, S WHERE R.a=S.b ;
+```
+# Evaluation
+## Experimental Setup
+```
+CPU: Intel Xeon Gold 6240 ×2, a total of 36 cores
+Memory: 64GB
+Persistent storage: SSD
+Network card: Mellanox
+MT27710 25Gbps
+```
+```
+Operating system: Ubuntu 18.04
+Database: CRDB v20.1.174
+```
+## Parameter settings
+**Performance of PnR varying the size of probe/build table**
+```
+p=frequency threshold=0.5%
+n=number of nodes=3, 6, 12
+z=Zipf factor=1.2
+|S|=size of build table=10000
+|R|=size of probe table=(|R|/|S|)×10000
+```
+**Performance of PnR varying the degree of skewness**
+```
+p=frequency threshold=0.5%
+n=number of nodes=3, 6, 12
+z=Zipf factor (is a variable)
+|S|=size of build table=10k (tuples)
+|R|=size of probe table=293k (tuples)
+```
+**Performance of PnR varying the size of the cluster**
+```
+p=frequency threshold=0.5%
+n=number of nodes (is a variable)
+z=Zipf factor=1.5
+|S|=size of build table=19k (tuples)
+|R|=size of probe table=391k (tuples)
+```
