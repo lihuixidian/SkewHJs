@@ -10,12 +10,12 @@ from zipf_generator import *
 
 """
 {
-使用方法:
+How to use:
     cd zipf
     python main.py + argvs
 }
 {
-参数
+Prameters:
     argv[1] : num_row_1
     argv[2] : a_1
     argv[3] : num_row_2 
@@ -23,7 +23,7 @@ from zipf_generator import *
     args[5] : upper_bound
     args[6] : offset(optional, by default 0)
 }
-数据范围: [0, upper_bound]
+Data scope: [0, upper_bound]
 """
 
 logging.basicConfig(level=logging.NOTSET)
