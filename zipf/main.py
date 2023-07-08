@@ -15,7 +15,7 @@ How to use:
     python main.py + argvs
 }
 {
-Prameters:
+Parameters
     argv[1] : num_row_1
     argv[2] : a_1
     argv[3] : num_row_2 
